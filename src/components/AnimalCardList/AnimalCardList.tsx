@@ -1,32 +1,27 @@
+import { useGetAllAnimalsQuery } from "../../slices/animalsApiSlice";
 import styled from "styled-components";
-import { useAppDispatch, useAppSelector } from "../../store/hooks";
 import { AnimalCard } from "../AnimalCard/AnimalCard";
-import { useEffect, useState } from "react";
-import { setAllAninmals, setLoading } from "../../slices/animalsSlice";
-// import { availableAnimals } from "../../assets/animalsHardCoded";
+import { useState } from "react";
+
+
 
 const AnimalCardList = () => {
   const [selectedSpecies, setSelectedSpecies] = useState("");
-  const dispatch = useAppDispatch();
-  const animals = useAppSelector((store) => {
-    return store.animals.animals;
-  });
 
-  //first data get
-  useEffect(() => {
-    const storedAnimals = localStorage.getItem("animals");
-    dispatch(setLoading(true));
-    dispatch(setAllAninmals(storedAnimals ? JSON.parse(storedAnimals) : []));
-    dispatch(setLoading(false));
-  }, []);
+  const { data, isLoading } = useGetAllAnimalsQuery();
+  console.log("data", data);
+
+  if (!data) {
+    return <h1>Loading...</h1>;
+  }
 
   //if there is no animals
-  if (!animals.length) {
+  if (!data.length) {
     return <h1> There is no animals in library</h1>;
   }
 
   // filter animals
-  const filteredAnimals = animals.filter((animal) => {
+  const filteredAnimals = data.filter((animal) => {
     if (selectedSpecies === "") {
       return animal;
     } else {
@@ -50,7 +45,7 @@ const AnimalCardList = () => {
         {filteredAnimals.map((animal) => (
           <AnimalCard
             key={Math.random()}
-            id={animal.id}
+            id={animal._id}
             name={animal.name}
             species={animal.species}
             imageUrl={animal.imageUrl}

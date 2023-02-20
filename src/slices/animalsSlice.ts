@@ -7,6 +7,13 @@ type Animal = {
   imageUrl: string;
 };
 
+type AnimalApiType = {
+  _id: string;
+  name: string;
+  species: string;
+  imageUrl: string;
+};
+
 interface AnimalsSliceType {
   animals: Animal[];
   loading: boolean;
@@ -32,7 +39,7 @@ const animalsSlice = createSlice({
   },
 });
 
-export type { Animal };
+export type { Animal, AnimalApiType };
 export const { setAllAninmals, setLoading } = animalsSlice.actions;
 // export const selectAnimals = (state: RootState) => state.animals.animals
 export default animalsSlice.reducer;
