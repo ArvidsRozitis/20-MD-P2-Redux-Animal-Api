@@ -25,7 +25,7 @@ const AnimalCardList = () => {
     if (selectedSpecies === "") {
       return animal;
     } else {
-      return animal.species.toLowerCase().includes(selectedSpecies);
+      return animal.species.toLowerCase().includes(selectedSpecies.toLowerCase());
     }
   });
 
