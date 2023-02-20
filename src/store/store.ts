@@ -1,11 +1,9 @@
 import { configureStore } from "@reduxjs/toolkit";
-import animalsReducer from "../slices/animalsSlice";
 import { animalsApiSlice } from "../slices/animalsApiSlice";
 
 const store = configureStore({
   reducer: {
-    animals: animalsReducer,
-    animalsApi: animalsApiSlice.reducer,
+    [animalsApiSlice.reducerPath]: animalsApiSlice.reducer,
   },
 
   middleware: (getDefaultMiddleware) =>

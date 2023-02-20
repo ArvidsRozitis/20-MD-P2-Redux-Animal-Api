@@ -1,28 +1,21 @@
 import { useAppDispatch, useAppSelector } from "../../store/hooks";
 import styled from "styled-components";
 import ButtonDelete from "../Button/ButtonDelete";
-import { setAllAninmals } from "../../slices/animalsSlice";
+import { useDeleteAnimalMutation } from "../../slices/animalsApiSlice";
 
 type AnimalsProps = {
-  id: string;
+  _id: string;
   name: string;
   species: string;
   imageUrl: string;
 };
 
-export const AnimalCard = ({ id, name, species, imageUrl }: AnimalsProps) => {
-  const dispatch = useAppDispatch();
-  const animals = useAppSelector((store) => {
-    return store.animals.animals;
-  });
+export const AnimalCard = ({ _id, name, species, imageUrl }: AnimalsProps) => {
+  const [deleteAnimal, { isSuccess }] = useDeleteAnimalMutation();
 
   //delete animal
   const deleteHandler = () => {
-    const updatedAnimals = animals.filter((animal) => animal.id !== id);
-    localStorage.setItem("animals", JSON.stringify(updatedAnimals));
-    const storedAnimals = localStorage.getItem("animals");
-    dispatch(setAllAninmals(storedAnimals ? JSON.parse(storedAnimals) : []));
-    console.log("deleted", id);
+    deleteAnimal(_id);
   };
 
   //render

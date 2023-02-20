@@ -1,27 +1,23 @@
-import { v4 as uuidv4 } from "uuid";
+import { useAddAnimalMutation } from "../../slices/animalsApiSlice";
 import { useState } from "react";
-import { useAppDispatch, useAppSelector } from "../../store/hooks";
 import styled from "styled-components";
 import Button from "../Button/Button";
-import { setAllAninmals } from "../../slices/animalsSlice";
 import { SelectSpecies } from "../SelectSpecies/SelectSpecies";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 export const AddAnimalForm = () => {
-  const dispatch = useAppDispatch();
-  const animals = useAppSelector((store) => {
-    return store.animals.animals;
-  });
+  const [addAnimal, {isLoading, isError}] = useAddAnimalMutation();
 
   //toasts
   const error = () => toast.error("Please fill all fields in form!");
-  const succes = () => toast.success("You added an animal!");
+  const success = () => toast.success("You added an animal!");
 
   const [selectValue, setSelectValue] = useState("select species");
   const [formData, setFormData] = useState({
     name: "",
     imageUrl: "",
+    species: selectValue,
   });
 
   //submit handler
@@ -34,19 +30,16 @@ export const AddAnimalForm = () => {
     ) {
       error();
     } else {
-      const newAnimal = { ...formData, species: selectValue, id: uuidv4() };
-      const updatedAnimals = [...animals, newAnimal];
-      localStorage.setItem("animals", JSON.stringify(updatedAnimals));
-
-      console.log("submited");
-      setFormData({
-        name: "",
-        imageUrl: "",
+      addAnimal(formData).then(() => {
+        console.log("submitted");
+        setFormData({
+          name: "",
+          imageUrl: "",
+          species: "",
+        });
+        setSelectValue("select species");
+        success();
       });
-      setSelectValue("select species");
-      const storedAnimals = localStorage.getItem("animals");
-      dispatch(setAllAninmals(storedAnimals ? JSON.parse(storedAnimals) : []));
-      succes();
     }
   };
   return (

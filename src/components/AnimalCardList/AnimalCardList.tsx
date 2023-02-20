@@ -8,7 +8,7 @@ import { useState } from "react";
 const AnimalCardList = () => {
   const [selectedSpecies, setSelectedSpecies] = useState("");
 
-  const { data, isLoading } = useGetAllAnimalsQuery();
+  const { data } = useGetAllAnimalsQuery();
   console.log("data", data);
 
   if (!data) {
@@ -45,7 +45,7 @@ const AnimalCardList = () => {
         {filteredAnimals.map((animal) => (
           <AnimalCard
             key={Math.random()}
-            id={animal._id}
+            _id={animal._id}
             name={animal.name}
             species={animal.species}
             imageUrl={animal.imageUrl}
