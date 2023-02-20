@@ -5,6 +5,7 @@ import { AddAnimalForm } from "./components/AddAnimalForm/AddAnimalForm";
 function App() {
   return (
     <div className="App">
+      Part2
       <AddAnimalForm />
       <AnimalCardList />
     </div>

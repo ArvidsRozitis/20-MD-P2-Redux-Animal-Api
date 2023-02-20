@@ -51,11 +51,6 @@ export const AddAnimalForm = () => {
   };
   return (
     <DivStyledFromContainer>
-      name: {formData.name}
-      <br />
-      species: {selectValue}
-      <br />
-      imageUrl: {formData.imageUrl}
       <FormStyled
         onSubmit={(e) => {
           e.preventDefault();
